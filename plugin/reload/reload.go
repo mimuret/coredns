@@ -110,8 +110,10 @@ func hook(event caddy.EventName, info interface{}) error {
 					if err != nil {
 						log.Errorf("Corefile changed but reload failed: %s", err)
 						failedCount.Add(1)
+						lastReloadSuccess.Set(0)
 						continue
 					}
+					lastReloadSuccess.Set(1)
 					// we are done, if the plugin was not set used, then it is not.
 					if r.usage() == maybeUsed {
 						r.setUsage(unused)

@@ -23,4 +23,15 @@ var (
 		Name:      "version_info",
 		Help:      "A metric with a constant '1' value labeled by hash, and value which type of hash generated.",
 	}, []string{"hash", "value"})
+	// lastReloadSuccess records 1 if the last configuration reload was successful, 0 if it failed.
+	lastReloadSuccess = promauto.NewGauge(prometheus.GaugeOpts{
+		Namespace: plugin.Namespace,
+		Subsystem: "reload",
+		Name:      "config_last_reload_success",
+		Help:      "The last configuration reload succeeded.",
+	})
 )
+
+func init() {
+	lastReloadSuccess.Set(1)
+}
